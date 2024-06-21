@@ -858,6 +858,11 @@ extension Sourcery {
         let existing = try path.read(.utf8)
         if existing != content {
             try path.write(content)
+        } else {
+          // update time stamp on file so spm plugins don't treat as stale
+          var attributes = try FileManager.default.attributesOfItem(atPath: path.string)
+          attributes[.modificationDate] = Date()
+          try FileManager.default.setAttributes(attributes, ofItemAtPath: path.string)
         }
     }
 
