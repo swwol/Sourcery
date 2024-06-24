@@ -860,9 +860,8 @@ extension Sourcery {
             try path.write(content)
         } else {
           // update time stamp on file so spm plugins don't treat as stale
-          var attributes = try FileManager.default.attributesOfItem(atPath: path.string)
-          attributes[.modificationDate] = Date()
-          try FileManager.default.setAttributes(attributes, ofItemAtPath: path.string)
+          let now = Date()
+          try FileManager.default.setAttributes([.creationDate: now, .modificationDate: now], ofItemAtPath: path.string)
         }
     }
 
